@@ -1,9 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'icon_content.dart';
+import 'reusable_card.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const Color bottomContainerColor = Color(0xFFEB1555);
-const Color activeCardColor = Colors.blueGrey;
+const Color activeCardColor = Color(0xFF101427);
+const Color inactiveCardColor = Color(0xFF1D1F33);
+
+enum Gender {
+  male,
+  female,
+}
 
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
@@ -13,6 +21,8 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Gender? selectedgender;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,26 +35,35 @@ class _InputPageState extends State<InputPage> {
             Expanded(
               child: Row(
                 children: [
-                  Expanded(
-                    child: ReusableCard(
-                      color: activeCardColor,
-                      child: IconContent(
-                        icon: Icons.add,
-                        //FontAwesomeIcons.mars,
-                        text: 'MALE',
-                      ),
+                  ReusableCard(
+                    onPressed: () {
+                      setState(() {
+                        selectedgender = Gender.male;
+                      });
+                    },
+                    color: (selectedgender == Gender.male)
+                        ? activeCardColor
+                        : inactiveCardColor,
+                    child: IconContent(
+                      icon: FontAwesomeIcons.mars,
+                      text: 'MALE',
                     ),
                   ),
-                  Expanded(
-                    child: ReusableCard(
-                      color: activeCardColor,
-                      child: IconContent(
-                        icon: Icons.add,
-                        //FontAwesomeIcons.venus,
-                        text: 'FEMALE',
-                      ),
+                  ReusableCard(
+                    onPressed: () {
+                      setState(() {
+                        selectedgender = Gender.female;
+                      });
+                    },
+                    color: (selectedgender == Gender.female)
+                        ? activeCardColor
+                        : inactiveCardColor,
+                    child: IconContent(
+                      icon: FontAwesomeIcons.venus,
+                      //FontAwesomeIcons.venus,
+                      text: 'FEMALE',
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -65,7 +84,7 @@ class _InputPageState extends State<InputPage> {
                     child: ReusableCard(
                       color: activeCardColor,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -76,50 +95,6 @@ class _InputPageState extends State<InputPage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class IconContent extends StatelessWidget {
-  IconData icon;
-  String text;
-  IconContent({required this.text, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          icon,
-          size: 80,
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        Text(
-          text,
-          style: TextStyle(fontSize: 25),
-        )
-      ],
-    );
-  }
-}
-
-class ReusableCard extends StatelessWidget {
-  final Color color;
-  Widget? child;
-  ReusableCard({required this.color, this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: child ?? Container(),
-      margin: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
       ),
     );
   }
